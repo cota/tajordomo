@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for file in team*.mail
+for file in *.mail
 do
 	git send-email --from="Emilio G. Cota <cota@cs.columbia.edu>" \
 		--cc="Emilio G. Cota <cota@cs.columbia.edu>"  \
