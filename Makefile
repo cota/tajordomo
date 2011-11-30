@@ -10,7 +10,7 @@ $(TEAMS): messages.mbox
 	./create_teams.pl --students=$(STUDENTS) $< > $@
 
 clean:
-	rm -rf team*.mail
+	rm -rf *.mail
 
 mrproper: clean
 	rm -rf $(TEAMS)
