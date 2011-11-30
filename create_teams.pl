@@ -82,7 +82,9 @@ foreach my $message ($folder->messages) {
 $folder->close;
 
 foreach my $team (sort { $a <=> $b } keys %teams) {
-    open(my $fh, ">team$team.mail") or die ("Cannot open $team$team.mail");
+    my $mailfile = "team$team.mail";
+
+    open(my $fh, ">$mailfile") or die ("Cannot open $mailfile");
 
     print "team$team: ", join(", ", @{$teams{$team}}), "\n";
 
@@ -118,5 +120,5 @@ Good luck,
 		Emilio
 EOT
 
-    close($fh) or die("Cannot close team$team.email");
+    close($fh) or die("Cannot close $mailfile");
 }
