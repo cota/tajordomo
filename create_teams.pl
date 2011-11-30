@@ -112,8 +112,12 @@ a reasonable amount of time to run simulations and write a high
 quality report.
 
 If you have questions, you can post them on the forum. You can also
-come to my office hours, which are held in the TA room on Thursdays
-between 4 and 6pm. Make use of these two resources!
+come to my office hours, which are held every Thursday between 4
+and 6pm.  Make use of these two resources!
+
+Normally my office hours are held in the TA room--exceptionally,
+I will be holding them this Thursday 12/1 in the CS conference room
+to be able to accommodate more of you.
 
 Good luck,
 
