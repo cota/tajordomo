@@ -35,11 +35,10 @@ taking this course (so that UNIs of other people in Cc do not
 pollute the end result). Each email gets a new team ID.
 
 ### What if they sent repeated emails?
-Remove those messages from the mbox. At the end of the day
-you'll need to inspect those messages anyway, for the odd
-"Please change me from my previous team, I'm now working
-with ZZZ", so I figured it's safer to leave this extra work
-to a human.
+As long as they are consistent (ie no new teams are specified with members
+from other teams), things will just work.  Note that you'll need to inspect
+the registration messages anyway, for the odd "Please change me from my
+previous team, I'm now working with ZZZ".
 
 ## Sending emails to the students
 I use `git send-email` + `msmtp` for convenience, feel free to

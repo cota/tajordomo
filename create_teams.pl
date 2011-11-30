@@ -54,14 +54,29 @@ my %teams;
 
 foreach my $message ($folder->messages) {
     my @UNIs = ($message->body =~ m/([a-z]{2,3}[0-9]{4})/g);
+    my $added = 0;
+    my $members = 0;
 
     ++$team_id;
 
     foreach (@UNIs) {
-	if ($students->{$_} && !$students->{$_}->{team}) {
-	    $students->{$_}->{team} = $team_id;
-	    push @{ $teams{$team_id} }, $_;
+	if ($students->{$_}) {
+	    $members++;
+	    if (!$students->{$_}->{team}) {
+		$students->{$_}->{team} = $team_id;
+		push @{ $teams{$team_id} }, $_;
+		$added++;
+	    }
 	}
+    }
+
+    if ($added) {
+	if ($members < $added) {
+	    print STDERR "Warning: $team_id has $added members instead of ",
+	    "$members, as requested";
+	}
+    } else {
+	$team_id--;
     }
 }
 $folder->close;
