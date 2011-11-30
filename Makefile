@@ -1,7 +1,7 @@
 STUDENTS := students.txt
 TEAMS := teams.txt
 
-all: create_teams
+all: $(TEAMS)
 
 send: $(TEAMS)
 	./send.sh
