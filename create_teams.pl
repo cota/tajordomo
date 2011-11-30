@@ -53,7 +53,7 @@ my $team_id = 0;
 my %teams;
 
 foreach my $message ($folder->messages) {
-    my @UNIs = ($message->body =~ m/([a-z]{2,3}[0-9]{4})/g);
+    my @UNIs = map { lc $_ } ($message->body =~ m/([a-z]{2,3}[0-9]{4})/ig);
     my $added = 0;
     my $members = 0;
 
