@@ -56,6 +56,19 @@ my $students = read_students_list($students_file);
 my $students_inorder = read_students_inorder($students_file);
 my $teams = read_teams_list($teams_file);
 
+inspect_grades(\@rawgrades);
+
+sub inspect_grades
+{
+    my ($grades) = @_;
+
+    foreach my $g (@$grades) {
+	if (hash_walk($g, [], \&check_score)) {
+	    die("Fatal: invalid input for team $g->{team}.\n");
+	}
+    }
+}
+
 foreach my $g (@rawgrades) {
     foreach my $uni (get_unis_from_grade($g)) {
 	my $s = $students->{$uni};
@@ -156,6 +169,33 @@ sub calc_score
     my ($k, $v, $key_list) = @_;
 
     return $k eq 'score' ? $v : 0;
+}
+
+sub hash_leaf
+{
+    my ($hash, $list) = @_;
+    my $res = $hash;
+
+    foreach my $k (@$list) {
+	$res = $res->{$k};
+    }
+    return $res;
+}
+
+sub check_score
+{
+    my ($k, $v, $key_list) = @_;
+
+    if ($k eq 'score') {
+	my $last = pop @$key_list;
+	my $max = hash_leaf($template, $key_list);
+	push @$key_list, $last;
+	if ($v < 0 || $v > $max) {
+	    print STDERR "Warning: $v out of range [0, $max] for '@$key_list'.\n";
+	    return -1;
+	}
+    }
+    return 0;
 }
 
 # from Higher Order Perl
