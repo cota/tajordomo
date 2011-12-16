@@ -10,6 +10,8 @@ require Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT = qw(
     read_students_list
+    read_students_inorder
+    read_teams_list
     $course_shortname
     );
 
@@ -41,4 +43,51 @@ sub read_students_list
     close($fh) or die("Cannot close $filename");
 
     return \%students;
+}
+
+sub read_students_inorder
+{
+    my ($filename) = @_;
+    my @students;
+
+    open(my $fh, "<", $filename) or die("cannot open $filename");
+    while (<$fh>) {
+	chomp;
+
+	my @fields = split("\t");
+	if (@fields) {
+	    my $email = $fields[2];
+	    $email =~ m/([^@]+)@.*/;
+	    my $uni = $1;
+
+	    push @students, $uni;
+	}
+    }
+    close($fh) or die("Cannot close $filename");
+
+    return \@students;
+}
+
+sub read_teams_list
+{
+    my ($filename) = @_;
+    my %teams;
+
+    open(my $fh, "<", $filename) or die("cannot open $filename");
+    while (<$fh>) {
+	chomp;
+
+	my @fields = split(": ");
+
+	my $team = $fields[0];
+	$team =~ m/team(\d+)/;
+	my $team_id = $1;
+
+	my $members = $fields[1];
+	my @members = split(", ", $members);
+	$teams{$team_id} = \@members;
+    }
+    close($fh) or die("Cannot close $filename");
+
+    return \%teams;
 }
