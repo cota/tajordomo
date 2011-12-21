@@ -77,8 +77,7 @@ foreach my $g (@rawgrades) {
 	push @row, $s->{surname}, $s->{name}, $uni, $g->{team};
 	push @row, $g->{code}->{quality}->{score}, $g->{code}->{quality}->{comm} || '';
 	push @row, $g->{code}->{performance}->{score}, $g->{code}->{performance}->{comm} || '';
-	push @row, $g->{sim}->{thoroughness}->{score}, $g->{sim}->{thoroughness}->{comm} || '';
-	push @row, $g->{sim}->{understanding}->{score}, $g->{sim}->{understanding}->{comm} || '';
+	push @row, $g->{exploration}->{quality}->{score}, $g->{exploration}->{quality}->{comm} || '';
 	push @row, $g->{report}->{quality}->{score}, $g->{report}->{quality}->{comm} || '';
 
 	$grades{$uni} = \@row;
@@ -90,8 +89,8 @@ my @rows = ();
 push @rows, ['NOTE:'];
 push @rows, ['Automatically', 'Generated.', 'Do not edit!'];
 my @fields = ('Last Name', 'FirstName', 'UNI', 'team', 'code quality', 'comm',
-    'code performance', 'comm', 'sim thoroughness', 'comm',
-	      'sim understanding', 'comm', 'report', 'comm');
+	      'code performance', 'comm', 'exploration', 'comm',
+	      'report', 'comm');
 
 push @rows, \@fields;
 
@@ -145,8 +144,7 @@ foreach my $g (@rawgrades) {
     my $total = 0;
     $total += print_field($fh, $g, $template, 'code', 'quality');
     $total += print_field($fh, $g, $template, 'code', 'performance');
-    $total += print_field($fh, $g, $template, 'sim', 'thoroughness');
-    $total += print_field($fh, $g, $template, 'sim', 'understanding');
+    $total += print_field($fh, $g, $template, 'exploration', 'quality');
     $total += print_field($fh, $g, $template, 'report', 'quality');
 
     print $fh <<EOT;
