@@ -31,10 +31,12 @@ my $stdio = 0;
 my $students_file = 'students.txt';
 my $teams_file = 'teams.txt';
 my $base_file;
+my $debug = 0;
 my $rc = GetOptions(
     'base=s' => \$base_file,
     'students=s' => \$students_file,
     'teams=s' => \$teams_file,
+    'd' => \$debug,
     '' => \$stdio,
     );
 
@@ -46,10 +48,15 @@ if (@ARGV) {
     usage();
 }
 
+print STDERR "Loading base file '$base_file'\n" if $debug;
 my $base = LoadFile($base_file);
 my $template = get_base($base);
-
-my @rawgrades = map { LoadFile($_) } @grade_files;
+my @rawgrades = ();
+foreach (@grade_files) {
+    print STDERR "Loading input file '$_'.. " if $debug;
+    push @rawgrades, LoadFile($_);
+    print STDERR "OK.\n" if $debug;
+}
 my %grades;
 
 my $students = read_students_list($students_file);
