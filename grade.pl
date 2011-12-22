@@ -162,7 +162,8 @@ FYI, the mean for all the projects is $pretty_mean / $template->{score}, and the
 standard deviation is $pretty_std.
 
 Hope you found the course and the project interesting.
-Enjoy your holiday!
+
+Best wishes,
 
 		Emilio
 EOT
