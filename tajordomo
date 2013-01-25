@@ -1,0 +1,65 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+=for args
+Usage:  tajordomo [sub-command] [options]
+
+The following built-in subcommands are available; they should all respond to
+'-h' or '--help' if you want further details:
+
+    init			1st run: initial setup
+    grades			Export grades or generate statistics about them
+    list			Query the user/team library
+    send-email			Send email to users/teams
+    teams			Create teams
+
+=cut
+
+use FindBin;
+
+BEGIN { $ENV{TD_BINDIR} = $FindBin::RealBin; }
+BEGIN { $ENV{TD_LIBDIR} = "$ENV{TD_BINDIR}/lib"; }
+use lib $ENV{TD_LIBDIR};
+use Tajordomo::Common;
+use Tajordomo::Teams::Common;
+
+use strict;
+use warnings;
+
+# Initialise data structures.
+# Note that the user list is considered stable since the program
+# does not change it (and reads it once if necessary).
+teams_init();
+
+my ($command, @args) = @ARGV;
+args();
+
+if ($command eq 'init') {
+    shift @ARGV;
+    use Tajordomo::Init;
+    init();
+} elsif ($command eq 'grades') {
+    shift @ARGV;
+    use Tajordomo::Grades;
+    grades();
+} elsif ($command eq 'list') {
+    shift @ARGV;
+    use Tajordomo::List;
+    list();
+} elsif ($command eq 'send-email') {
+    shift @ARGV;
+    use Tajordomo::Email;
+    send_email();
+} elsif ($command eq 'teams') {
+    shift @ARGV;
+    use Tajordomo::Teams::Dispatch;
+    teams();
+} else {
+    say2 "Unknown tajordomo command '$command'";
+    exit 1;
+}
+
+sub args {
+    usage() if not $command or $command eq '-h' or $command eq '--help';
+}

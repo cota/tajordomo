@@ -1,0 +1,47 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+use Getopt::Long;
+use FindBin;
+
+BEGIN { $ENV{TD_BINDIR} = $FindBin::RealBin }
+BEGIN { $ENV{TD_LIBDIR} = "$ENV{TD_BINDIR}/lib"; }
+use lib $ENV{TD_LIBDIR};
+use Tajordomo::Common;
+
+=for usage
+Usage (from tajordomo clone directory):
+
+    ./install -ln [<dir>]
+        to symlink just the gitolite executable to some <dir> that is in
+        $PATH.  <dir> defaults to $HOME/bin if <dir> not specified.  <dir> is
+        assumed to exist; gitolite will not create it.
+
+        Please provide a full path, not a relative path.
+
+Simplest use, if $HOME/bin exists and is in $PATH, is:
+
+    git clone git://github.com/cota/tajordomo
+    gitolite/install -ln
+
+=cut
+
+my ($to, $ln, $help, $quiet);
+
+GetOptions(
+    'ln:s' => \$ln,
+    'help|h'    => \$help,
+    'quiet|q'    => \$quiet,
+);
+usage() if $help;
+$ln = "$ENV{HOME}/bin" if defined($ln) and not $ln;
+for my $d ($ln, $to) {
+    if ($d and not -d $d) {
+        print STDERR "FATAL: '$d' does not exist.\n";
+        usage();
+    }
+}
+
+chdir($ENV{TD_BINDIR});
+ln_sf($ENV{TD_BINDIR}, "tajordomo", $ln);
