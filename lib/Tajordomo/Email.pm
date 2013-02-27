@@ -108,7 +108,7 @@ sub _email {
 	}
 	$git .= "--suppress-cc=all --no-chain-reply-to ";
 	$git .= "--quiet " if $quiet;
-	$git .= "--to='" . join("' --cc='", @to) . "' ";
+	$git .= "--to='" . join("' --to='", @to) . "' ";
 	$git .= '--dry-run ' if $dry;
 	$git .= "$tmp";
 
